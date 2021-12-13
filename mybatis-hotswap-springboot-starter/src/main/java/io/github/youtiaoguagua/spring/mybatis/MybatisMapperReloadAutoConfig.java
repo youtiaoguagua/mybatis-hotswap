@@ -1,7 +1,8 @@
-package com.wang.spring.mybatis;
+package io.github.youtiaoguagua.spring.mybatis;
 
-import com.wang.spring.core.MybatisMapperXmlFileReloadService;
-import com.wang.spring.core.MybatisMapperXmlFileWatchService;
+import io.github.youtiaoguagua.spring.core.MybatisMapperXmlFileReloadService;
+import io.github.youtiaoguagua.spring.core.MybatisMapperXmlLoadService;
+import io.github.youtiaoguagua.spring.core.MybatisWatchDirService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -21,7 +22,8 @@ import java.util.concurrent.CompletableFuture;
 @Configuration
 @ConditionalOnClass(SqlSessionFactory.class)
 @EnableConfigurationProperties(MybatisMapperReloadProperties.class)
-@ComponentScan("com.wang.spring.controller")
+@ComponentScan(value = {"com.wang.spring.controller", "com.wang.spring.config", "com.wang.spring.intecepter"})
+@ConditionalOnProperty(prefix = "mybatis.mapper.reload", value = "enable", havingValue = "true", matchIfMissing = false)
 public class MybatisMapperReloadAutoConfig {
 
     private final MybatisMapperReloadProperties properties;
@@ -35,12 +37,20 @@ public class MybatisMapperReloadAutoConfig {
         return new MybatisMapperXmlFileReloadService(sqlSessionFactoryList);
     }
 
+
     @Bean
-    @ConditionalOnProperty(prefix = "mybatis.mapper.reload", value = "enable", havingValue = "true", matchIfMissing = false)
-    public MybatisMapperXmlFileWatchService mybatisMapperXmlFileWatchService(@Autowired MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService) {
-        MybatisMapperXmlFileWatchService mapperFileWatchReload = new MybatisMapperXmlFileWatchService(properties.getMapperLocations());
-        mapperFileWatchReload.setMybatisMapperXmlFileReloadService(mybatisMapperXmlFileReloadService);
-        CompletableFuture.runAsync(mapperFileWatchReload::initWatchService);
-        return mapperFileWatchReload;
+    public MybatisMapperXmlLoadService mybatisMapperXmlLoadService() {
+        MybatisMapperXmlLoadService loadService = new MybatisMapperXmlLoadService(properties.getMapperLocations());
+        loadService.init();
+        return loadService;
     }
+
+    @Bean
+    public MybatisWatchDirService mybatisWatchDirService(@Autowired MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService, @Autowired MybatisMapperXmlLoadService mybatisMapperXmlLoadService) {
+        MybatisWatchDirService mybatisWatchDirService = new MybatisWatchDirService(mybatisMapperXmlLoadService, mybatisMapperXmlFileReloadService);
+        CompletableFuture.runAsync(mybatisWatchDirService::init);
+        return mybatisWatchDirService;
+    }
+
+
 }

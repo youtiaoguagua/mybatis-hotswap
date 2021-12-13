@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.wang.mybatis</groupId>
-    <artifactId>mybatis-hostswap-springboot-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>springboot-mybatis-hostswap-starter</name>
-    <description>springboot-mybatis-hostswap-starter</description>
+
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <groupId>io.github.youtiaoguagua</groupId>
+    <artifactId>mybatis-hotswap-springboot-starter</artifactId>
+    <version>1.0.1</version>
+
+    <name>springboot-mybatis-hotswap-starter</name>
+    <description>springboot-mybatis-hotswap-starter</description>
+
     <properties>
         <java.version>1.8</java.version>
         <dir.watch>0.15.0</dir.watch>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -32,12 +38,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--<dependency>-->
-        <!--    <groupId>org.mybatis.spring.boot</groupId>-->
-        <!--    <artifactId>mybatis-spring-boot-starter</artifactId>-->
-        <!--    <version>2.2.0</version>-->
-        <!--</dependency>-->
-        <!-- https://mvnrepository.com/artifact/io.methvin/directory-watcher -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.7.17</version>
+        </dependency>
         <dependency>
             <groupId>io.methvin</groupId>
             <artifactId>directory-watcher</artifactId>
@@ -51,21 +56,203 @@
         </dependency>
     </dependencies>
 
-    <!--<build>-->
-    <!--    <plugins>-->
-    <!--        <plugin>-->
-    <!--            <groupId>org.springframework.boot</groupId>-->
-    <!--            <artifactId>spring-boot-maven-plugin</artifactId>-->
-    <!--            <configuration>-->
-    <!--                <excludes>-->
-    <!--                    <exclude>-->
-    <!--                        <groupId>org.projectlombok</groupId>-->
-    <!--                        <artifactId>lombok</artifactId>-->
-    <!--                    </exclude>-->
-    <!--                </excludes>-->
-    <!--            </configuration>-->
-    <!--        </plugin>-->
-    <!--    </plugins>-->
-    <!--</build>-->
+    <developers>
+        <developer>
+            <name>youtiaoguagua</name>
+            <email>youtiaoguagua@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/youtiaoguagua/mybatis-hotswap</connection>
+        <developerConnection>scm:git:git@github.com/youtiaoguagua/mybatis-hotswap.git</developerConnection>
+        <url>youtiaoguagua/mybatis-hotswap</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <build>
+        <plugins>
+             <!--插件maven-clean-plugin，用于在编译前，清除之前编译的文件、文件夹等，避免残留之前的内容 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <!-- 前端资源目录，即：存放前端包目录-->
+                            <directory>src/main/resources/web</directory>
+                        </fileset>
+                        <fileset>
+                            <!-- Vue项目打包自动生成的dist目录 -->
+                            <directory>../mybatis-reload-web/dist</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <!--frontend-maven-plugin为项目本地下载/安装Node和NPM，运行npm install命令-->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.12.0</version>
+                <configuration>
+                    <workingDirectory>../mybatis-reload-web</workingDirectory>
+                    <nodeDownloadRoot>https://npm.taobao.org/mirrors/node/</nodeDownloadRoot>
+                    <npmDownloadRoot>https://npm.taobao.org/mirrors/npm/</npmDownloadRoot>
+                    <yarnDownloadRoot>https://npm.taobao.org/mirrors/yarn/</yarnDownloadRoot>
+                    <nodeVersion>v16.13.0</nodeVersion>
+                    <yarnVersion>v1.22.17</yarnVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and yarn</id>
+                        <goals>
+                            <goal>install-node-and-yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>yarn install</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install --registry https://registry.npm.taobao.org/</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn run build</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build:prod</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy static</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 复制前端打包文件到这里 -->
+                            <outputDirectory>../mybatis-boot/src/main/resources/web</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <!-- 从前端打包的目录dist进行指定文件、文件夹内容的复制-->
+                                    <directory>../mybatis-reload-web/dist</directory>
+                                    <includes>
+                                        <!-- 具体根据实际前端代码、及目录结构进行配置-->
+                                        <include>css/</include>
+                                        <include>fonts/</include>
+                                        <include>img/</include>
+                                        <include>js/</include>
+                                        <include>favicon.ico</include>
+                                        <include>index.html</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                    <layout>NONE</layout>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <additionalJOption>-Xdoclint:none</additionalJOption>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <gpgArguments>
+                        <arg>--pinentry-mode</arg>
+                        <arg>loopback</arg>
+                    </gpgArguments>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>sonatype-staging</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

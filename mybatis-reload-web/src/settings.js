@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Vue Admin Template',
+  title: 'Mybatis Hot Swap',
 
   /**
    * @type {boolean} true | false
