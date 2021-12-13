@@ -15,17 +15,22 @@ spring:
         core-size: 10
 
 server:
-  port: 8054
+  port: 8888
 
-#logging:
-#  level:
-#    com.example.mybatisstream.TaxMapper: DEBUG
+
+
+
+
+
+
+
+
 mybatis:
-  mapper-locations: classpath*:/**/*apper*.xml
+  mapper-locations: classpath*:./mapper/*.xml
   mapper:
     reload:
       enable: true
-      mapper-location: classpath*:/**/*apper*.xml
+      mapper-locations: classpath*:/mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 控制台输出日志
 

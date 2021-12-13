@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author 王祥飞
  * @time 2021/12/13 2:28 PM
  */
-@ConfigurationProperties(prefix = "mybatis.reload.mapper.reload")
+@ConfigurationProperties(prefix = "mybatis.mapper.reload")
 @Data
 public class MybatisMapperReloadProperties {
 

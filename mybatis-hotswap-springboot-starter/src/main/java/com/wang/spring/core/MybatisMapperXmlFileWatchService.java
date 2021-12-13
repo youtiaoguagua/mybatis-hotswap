@@ -91,9 +91,6 @@ public class MybatisMapperXmlFileWatchService {
      * @throws IOException
      */
     private void startMapperWatchService(Set<Path> mapperXmlFileDirPaths) {
-        /**
-         * https://github.com/gmethvin/directory-watcher
-         */
         try {
             watcher = DirectoryWatcher.builder()
                     .paths(new ArrayList<>(mapperXmlFileDirPaths))
