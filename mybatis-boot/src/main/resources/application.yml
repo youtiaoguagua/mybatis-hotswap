@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:asgard}?useUnicode=true&characterEncoding=UTF8&tcpKeepAlive=true&autoReconnect=true&useSSL=false&&allowMultiQueries=true
+    hikari:
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:a2049150434}
+      maximum-pool-size: 100
+      minimum-idle: 10
+  task:
+    execution:
+      pool:
+        max-size: 20
+        core-size: 10
+
+server:
+  port: 8054
+
+#logging:
+#  level:
+#    com.example.mybatisstream.TaxMapper: DEBUG
+mybatis:
+  mapper-locations: classpath*:/**/*apper*.xml
+  mapper:
+    reload:
+      enable: true
+      mapper-location: classpath*:/**/*apper*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 控制台输出日志
+
+  ## 需要进行监听的文件
