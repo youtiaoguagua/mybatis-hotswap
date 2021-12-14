@@ -2,22 +2,20 @@ package com.wang.spring.core;
 
 import io.methvin.watcher.DirectoryChangeEvent;
 import io.methvin.watcher.DirectoryWatcher;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PatternMatchUtils;
-import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PreDestroy;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 /**
  * @author 王祥飞
@@ -29,14 +27,14 @@ public class MybatisMapperXmlFileWatchService {
     private static final ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
 
 
-    public MybatisMapperXmlFileWatchService(String[] mybatisMapperLocals) {
-        this.mybatisMapperLocals = mybatisMapperLocals;
+    public MybatisMapperXmlFileWatchService(MybatisMapperXmlLoadService mybatisMapperXmlLoadService) {
+        this.mybatisMapperXmlLoadService = mybatisMapperXmlLoadService;
     }
 
     /**
      * mybatis文件配置路径
      */
-    private final String[] mybatisMapperLocals;
+    private MybatisMapperXmlLoadService mybatisMapperXmlLoadService;
 
 
     /**
@@ -52,17 +50,13 @@ public class MybatisMapperXmlFileWatchService {
     /**
      * mybatis mapper xml 重新加载服务
      */
+    @Setter
     private MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService;
 
     /**
      * 文件监听服务
      */
     private DirectoryWatcher watcher;
-
-    /**
-     * mybatis  mapper xml 的文件路径
-     */
-    private Resource[] mapperLocations;
 
     /**
      * 启动监听
@@ -73,10 +67,9 @@ public class MybatisMapperXmlFileWatchService {
             return;
         }
         // 扫描xml路径
-        this.scanMapperXml();
-        Set<Path> mapperXmlFileDirPaths = this.getWatchMapperXmlFileDirPaths();
+        Set<Path> mapperXmlFileDirPaths = mybatisMapperXmlLoadService.getMapperXmlFileDirPaths();
         if (CollectionUtils.isEmpty(mapperXmlFileDirPaths)) {
-            log.warn("not found mapper xml in {}", mapperLocations);
+            log.warn("not found mapper xml in {}", Arrays.stream(mybatisMapperXmlLoadService.getLocations()));
             return;
         }
         this.startMapperWatchService(mapperXmlFileDirPaths);
@@ -119,63 +112,6 @@ public class MybatisMapperXmlFileWatchService {
         }
     }
 
-    /**
-     * 获取需要被监听的 mapper的父文件dir路径
-     *
-     * @return
-     */
-    private Set<Path> getWatchMapperXmlFileDirPaths() {
-        Resource[] resources = this.mapperLocations;
-        if (resources.length == 0) {
-            return Collections.emptySet();
-        }
-        Set<Path> parentDirSet = new HashSet<>(5);
-        for (Resource resource : resources) {
-            try {
-                if (!resource.exists() || ResourceUtils.isJarURL(resource.getURL())) {
-                    continue;
-                }
-                if (ResourceUtils.isFileURL(resource.getURL())) {
-                    File file = resource.getFile();
-                    String parentDir = file.getParent();
-                    parentDirSet.add(Paths.get(parentDir));
-                }
-            } catch (Exception e) {
-                log.warn("getWatchMapperXmlFileDirPaths error resource={}", resource, e);
-            }
-        }
-        return parentDirSet;
-    }
-
-    private void scanMapperXml() {
-        this.mapperLocations = Stream.of(Optional.ofNullable(mybatisMapperLocals).orElse(new String[0]))
-                .flatMap(location -> {
-                    try {
-                        return Stream.of(new PathMatchingResourcePatternResolver().getResources(location));
-                    } catch (IOException e) {
-                        log.warn("scan mapper xml error location={}", location, e);
-                    }
-                    return null;
-                }).filter(Objects::nonNull).toArray(Resource[]::new);
-    }
-
-    /**
-     * 获取xml文件路径
-     */
-    //private void scanMapperXml() {
-    //    this.mapperLocations = Stream.of(Optional.ofNullable(mybatisMapperLocals).orElse(new String[0]))
-    //            .flatMap(location -> Stream.of(getResources(location))).toArray(Resource[]::new);
-    //}
-
-    //private Resource[] getResources(String location) {
-    //    try {
-    //        return resourceResolver.getResources(location);
-    //    } catch (IOException e) {
-    //        return new Resource[0];
-    //    }
-    //}
-
-
     @PreDestroy
     public void destroy() {
         try {
@@ -183,10 +119,6 @@ public class MybatisMapperXmlFileWatchService {
         } catch (Exception e) {
             log.debug("DirectoryWatcher got an exception while close!", e);
         }
-    }
-
-    public void setMybatisMapperXmlFileReloadService(MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService) {
-        this.mybatisMapperXmlFileReloadService = mybatisMapperXmlFileReloadService;
     }
 
     /**
