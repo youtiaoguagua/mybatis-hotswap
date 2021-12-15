@@ -50,21 +50,109 @@
         </dependency>
     </dependencies>
 
-    <!--<build>-->
-    <!--    <plugins>-->
-    <!--        <plugin>-->
-    <!--            <groupId>org.springframework.boot</groupId>-->
-    <!--            <artifactId>spring-boot-maven-plugin</artifactId>-->
-    <!--            <configuration>-->
-    <!--                <excludes>-->
-    <!--                    <exclude>-->
-    <!--                        <groupId>org.projectlombok</groupId>-->
-    <!--                        <artifactId>lombok</artifactId>-->
-    <!--                    </exclude>-->
-    <!--                </excludes>-->
-    <!--            </configuration>-->
-    <!--        </plugin>-->
-    <!--    </plugins>-->
-    <!--</build>-->
+    <build>
+        <plugins>
+            <!-- 插件maven-clean-plugin，用于在编译前，清除之前编译的文件、文件夹等，避免残留之前的内容 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <!-- 前端资源目录，即：存放前端包目录-->
+                            <directory>src/main/resources/web</directory>
+                        </fileset>
+                        <fileset>
+                            <!-- Vue项目打包自动生成的dist目录 -->
+                            <directory>../mybatis-reload-web/dist</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <!--frontend-maven-plugin为项目本地下载/安装Node和NPM，运行npm install命令-->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.12.0</version>
+                <configuration>
+                    <workingDirectory>../mybatis-reload-web</workingDirectory>
+                    <nodeDownloadRoot>https://npm.taobao.org/mirrors/node/</nodeDownloadRoot>
+                    <npmDownloadRoot>https://npm.taobao.org/mirrors/npm/</npmDownloadRoot>
+                    <nodeVersion>v16.13.0</nodeVersion>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- optional: you don't really need execution ids, but it looks nice in your build log. -->
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <!-- optional: default phase is "generate-resources" -->
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <!-- Install all project dependencies -->
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <!-- Build and minify static files -->
+                    <execution>
+                        <id>npm run build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build:prod</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy static</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 复制前端打包文件到这里 -->
+                            <outputDirectory>../mybatis-boot/src/main/resources/web</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <!-- 从前端打包的目录dist进行指定文件、文件夹内容的复制-->
+                                    <directory>../mybatis-reload-web/dist</directory>
+                                    <includes>
+                                        <!-- 具体根据实际前端代码、及目录结构进行配置-->
+                                        <include>css/</include>
+                                        <include>fonts/</include>
+                                        <include>img/</include>
+                                        <include>js/</include>
+                                        <include>favicon.ico</include>
+                                        <include>index.html</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>

@@ -1,8 +1,8 @@
 package com.wang.spring.mybatis;
 
 import com.wang.spring.core.MybatisMapperXmlFileReloadService;
-import com.wang.spring.core.MybatisMapperXmlFileWatchService;
 import com.wang.spring.core.MybatisMapperXmlLoadService;
+import com.wang.spring.core.MybatisWatchDirService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @Configuration
 @ConditionalOnClass(SqlSessionFactory.class)
 @EnableConfigurationProperties(MybatisMapperReloadProperties.class)
-@ComponentScan("com.wang.spring.controller")
+@ComponentScan(value = {"com.wang.spring.controller", "com.wang.spring.config", "com.wang.spring.intecepter"})
 @ConditionalOnProperty(prefix = "mybatis.mapper.reload", value = "enable", havingValue = "true", matchIfMissing = false)
 public class MybatisMapperReloadAutoConfig {
 
@@ -46,10 +46,11 @@ public class MybatisMapperReloadAutoConfig {
     }
 
     @Bean
-    public MybatisMapperXmlFileWatchService mybatisMapperXmlFileWatchService(@Autowired MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService, @Autowired MybatisMapperXmlLoadService mybatisMapperXmlLoadService) {
-        MybatisMapperXmlFileWatchService mapperFileWatchReload = new MybatisMapperXmlFileWatchService(mybatisMapperXmlLoadService);
-        mapperFileWatchReload.setMybatisMapperXmlFileReloadService(mybatisMapperXmlFileReloadService);
-        CompletableFuture.runAsync(mapperFileWatchReload::initWatchService);
-        return mapperFileWatchReload;
+    public MybatisWatchDirService mybatisWatchDirService(@Autowired MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService, @Autowired MybatisMapperXmlLoadService mybatisMapperXmlLoadService) {
+        MybatisWatchDirService mybatisWatchDirService = new MybatisWatchDirService(mybatisMapperXmlLoadService, mybatisMapperXmlFileReloadService);
+        CompletableFuture.runAsync(mybatisWatchDirService::init);
+        return mybatisWatchDirService;
     }
+
+
 }

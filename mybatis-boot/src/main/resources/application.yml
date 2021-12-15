@@ -26,7 +26,7 @@ server:
 
 
 mybatis:
-  mapper-locations: classpath*:./mapper/*.xml
+  mapper-locations: classpath*:/mapper/*.xml
   mapper:
     reload:
       enable: true
@@ -35,3 +35,6 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 控制台输出日志
 
   ## 需要进行监听的文件
+logging:
+  level:
+    root: info

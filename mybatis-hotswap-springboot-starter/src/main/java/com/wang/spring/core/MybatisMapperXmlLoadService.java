@@ -1,14 +1,17 @@
 package com.wang.spring.core;
 
-import cn.hutool.core.io.file.FileReader;
+import com.wang.spring.entity.MapperXmlEntity;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StreamUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -31,10 +34,10 @@ public class MybatisMapperXmlLoadService {
     private Set<Path> mapperXmlFileDirPaths;
 
     @Getter
-    private HashMap<String, String> mapperXmlFileStream = new HashMap<>();
+    private HashMap<String, String> mapperXmlPath = new HashMap<>();
 
     @Getter
-    private HashMap<String, String> mapperXmlPath = new HashMap<>();
+    private HashMap<String, MapperXmlEntity> mapperXmlEntity = new HashMap<>();
 
     private boolean init = false;
 
@@ -43,6 +46,11 @@ public class MybatisMapperXmlLoadService {
     }
 
     public void init() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (!init) {
             scanMapperXml();
             getWatchMapperXmlFileDirPaths();
@@ -52,6 +60,7 @@ public class MybatisMapperXmlLoadService {
 
 
     private void scanMapperXml() {
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
         this.mappingResources = Stream.of(Optional.ofNullable(locations).orElse(new String[0]))
                 .flatMap(location -> {
                     try {
@@ -61,14 +70,14 @@ public class MybatisMapperXmlLoadService {
                         log.warn("scan mapper xml error location={}", location, e);
                     }
                     return null;
-                }).filter(Objects::nonNull)
-                .peek(resource -> {
+                }).filter(Objects::nonNull).peek(resource -> {
                     try {
-                        File file = resource.getFile();
-                        FileReader fileReader = new FileReader(file);
-                        String xml = fileReader.readString();
-                        mapperXmlFileStream.put(file.getPath(), xml);
-                        mapperXmlPath.put(file.getName(), file.getPath());
+                        String xml = StreamUtils.copyToString(resource.getInputStream(), Charset.defaultCharset());
+                        String path = resource.getURL().getPath();
+                        String filename = resource.getFilename();
+                        MapperXmlEntity mapperXmlEntity = MapperXmlEntity.builder().name(filename).path(path).xml(xml).build();
+                        this.mapperXmlEntity.put(path, mapperXmlEntity);
+                        mapperXmlPath.put(filename, path);
                     } catch (IOException e) {
                         log.warn("scan mapper xml error resource={}", resource, e);
                     }

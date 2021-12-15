@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author youtiaoguagua
  * @date 2021/12/13 20:38
@@ -18,8 +20,8 @@ public class CaoController {
     private CaoDao caoService;
 
     @GetMapping("test")
-    public Cao getCao(){
-        Cao cao = caoService.queryById(1);
-        return cao;
+    public List<Cao> getCao(){
+        List<Cao> caos = caoService.queryLimit();
+        return caos;
     }
 }

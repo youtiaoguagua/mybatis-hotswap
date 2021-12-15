@@ -23,6 +23,8 @@ public interface CaoDao {
      */
     Cao queryById(Integer id);
 
+    List<Cao> queryLimit();
+
     /**
      * 统计总行数
      *

@@ -1,7 +1,9 @@
 package com.wang.spring.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,6 +14,8 @@ import java.util.Objects;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MapperXmlEntity implements Serializable {
 
     private String name;

@@ -1,5 +1,6 @@
 package com.wang.spring.core;
 
+import cn.hutool.core.io.file.FileReader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
@@ -11,6 +12,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -55,31 +58,30 @@ public class MybatisMapperXmlFileReloadService {
         }
 
         AtomicBoolean result = new AtomicBoolean(true);
-
+        File file = path.toFile();
+        FileReader fileReader = new FileReader(file);
+        String xml = fileReader.readString();
         // 删除mapper 缓存 重新加载
         sqlSessionFactoryList.parallelStream().forEach(sqlSessionFactory -> {
             Configuration configuration = sqlSessionFactory.getConfiguration();
-            try (InputStream fileInputStream = Files.newInputStream(path)) {
-                if (!this.removeMapperCacheAndReloadNewMapperFile(fileInputStream, configuration)) {
-                    log.warn("reload new mapper file fail path={}", path.toString());
-                    result.set(false);
-                } else {
-                    log.info("reload new mapper file success path={}", path.toString());
-                }
-            } catch (Exception e) {
-                log.warn("load fail {}", path.toString(), e);
+
+            if (!this.removeMapperCacheAndReloadNewMapperFile(xml, configuration)) {
+                log.warn("reload new mapper file fail path={}", path.toString());
+                result.set(false);
+            } else {
+                log.info("reload new mapper file success path={}", path.toString());
             }
         });
         return result.get();
     }
 
-    public boolean reloadAllSqlSessionFactoryMapper(InputStream fileInputStream, String path) {
+    public boolean reloadAllSqlSessionFactoryMapper(String xml, String path) {
         AtomicBoolean result = new AtomicBoolean(true);
 
         // 删除mapper 缓存 重新加载
         sqlSessionFactoryList.parallelStream().forEach(sqlSessionFactory -> {
             Configuration configuration = sqlSessionFactory.getConfiguration();
-            if (!this.removeMapperCacheAndReloadNewMapperFile(fileInputStream, configuration)) {
+            if (!this.removeMapperCacheAndReloadNewMapperFile(xml, configuration)) {
                 log.warn("reload new mapper file fail path={}", path.toString());
                 result.set(false);
             } else {
@@ -102,8 +104,8 @@ public class MybatisMapperXmlFileReloadService {
      * @param configuration
      * @return
      */
-    private boolean removeMapperCacheAndReloadNewMapperFile(InputStream fileInputStream, Configuration configuration) {
-        try {
+    private boolean removeMapperCacheAndReloadNewMapperFile(String xml, Configuration configuration) {
+        try (InputStream fileInputStream = new ByteArrayInputStream(xml.getBytes())) {
             XPathParser context = new XPathParser(fileInputStream, true, configuration.getVariables(), new XMLMapperEntityResolver());
             XNode contextNode = context.evalNode("/mapper");
             if (null == contextNode) {
@@ -115,7 +117,7 @@ public class MybatisMapperXmlFileReloadService {
             }
 
             this.removeOldMapperFileConfigCache(configuration, contextNode, namespace);
-            this.addNewMapperFile(configuration, fileInputStream, namespace);
+            this.addNewMapperFile(configuration, xml, namespace);
         } catch (IOException e) {
             return false;
         }
@@ -157,12 +159,14 @@ public class MybatisMapperXmlFileReloadService {
      * @param configuration
      * @param namespace
      */
-    private void addNewMapperFile(Configuration configuration, InputStream fileInputStream, String namespace) throws IOException {
-        String xmlResource = namespace.replace('.', '/') + ".xml";
-        XMLMapperBuilder xmlMapperBuilder = new XMLMapperBuilder(fileInputStream, configuration,
-                xmlResource,
-                configuration.getSqlFragments());
-        xmlMapperBuilder.parse();
+    private void addNewMapperFile(Configuration configuration, String xml, String namespace) throws IOException {
+        try (InputStream fileInputStream = new ByteArrayInputStream(xml.getBytes());) {
+            String xmlResource = namespace.replace('.', '/') + ".xml";
+            XMLMapperBuilder xmlMapperBuilder = new XMLMapperBuilder(fileInputStream, configuration,
+                    xmlResource,
+                    configuration.getSqlFragments());
+            xmlMapperBuilder.parse();
+        }
     }
 
 

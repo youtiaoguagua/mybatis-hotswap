@@ -20,4 +20,24 @@ public class MybatisMapperReloadProperties {
      * mapper文件目录
      */
     private String[] mapperLocations;
+
+    /**
+     * 登录token
+     */
+    private String token = "yyds";
+
+    /**
+     * 登录用户名
+     */
+    private String username = "admin";
+
+    /**
+     * 登录密码
+     */
+    private String password = "123456";
+
+    /**
+     * mybatis访问路径
+     */
+    private String urlPrefix = "web/mybatis/reload";
 }

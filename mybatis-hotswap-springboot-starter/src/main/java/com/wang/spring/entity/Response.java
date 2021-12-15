@@ -11,7 +11,7 @@ import java.io.Serializable;
 @ToString
 public class Response<T> implements Serializable {
     private boolean success;
-    private T result;
+    private T data;
     private String error;
 
     public Response() {
@@ -25,13 +25,13 @@ public class Response<T> implements Serializable {
         this.success = success;
     }
 
-    public T getResult() {
-        return this.result;
+    public T getData() {
+        return this.data;
     }
 
-    public void setResult(T result) {
+    public void setData(T data) {
         this.success = true;
-        this.result = result;
+        this.data = data;
     }
 
     public String getError() {
@@ -45,7 +45,7 @@ public class Response<T> implements Serializable {
 
     public static <T> Response<T> ok(T data) {
         Response<T> resp = new Response();
-        resp.setResult(data);
+        resp.setData(data);
         return resp;
     }
 
