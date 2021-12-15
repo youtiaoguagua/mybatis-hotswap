@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.wang.boot</groupId>
     <artifactId>mybatis-boot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>mybatis-boot</name>
     <description>mybatis-boot</description>
     <properties>
