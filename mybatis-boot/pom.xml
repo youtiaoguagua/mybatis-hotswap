@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.youtiaoguagua.mybatis</groupId>
+        <artifactId>mybatis-hotswap</artifactId>
+        <version>1.0.0</version>
     </parent>
-    <groupId>com.wang.boot</groupId>
+
+    <modelVersion>4.0.0</modelVersion>
+
     <artifactId>mybatis-boot</artifactId>
-    <version>1.0.0</version>
     <name>mybatis-boot</name>
     <description>mybatis-boot</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
     <dependencies>
         <dependency>
-            <groupId>com.wang.mybatis</groupId>
-            <artifactId>mybatis-hostswap-springboot-starter</artifactId>
+            <groupId>com.youtiaoguagua.mybatis</groupId>
+            <artifactId>mybatis-hotswap-springboot-starter</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

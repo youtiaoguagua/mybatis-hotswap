@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.youtiaoguagua.mybatis</groupId>
+        <artifactId>mybatis-hotswap</artifactId>
+        <version>1.0.0</version>
     </parent>
-    <groupId>com.wang.mybatis</groupId>
-    <artifactId>mybatis-hostswap-springboot-starter</artifactId>
-    <version>1.0.0</version>
-    <name>springboot-mybatis-hostswap-starter</name>
-    <description>springboot-mybatis-hostswap-starter</description>
+
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+
+    <artifactId>mybatis-hotswap-springboot-starter</artifactId>
+    <name>springboot-mybatis-hotswap-starter</name>
+    <description>springboot-mybatis-hotswap-starter</description>
+
     <properties>
         <java.version>1.8</java.version>
         <dir.watch>0.15.0</dir.watch>
@@ -35,7 +37,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
-            <version>5.7.16</version>
+            <version>5.7.17</version>
         </dependency>
         <dependency>
             <groupId>io.methvin</groupId>
@@ -52,7 +54,7 @@
 
     <build>
         <plugins>
-            <!-- 插件maven-clean-plugin，用于在编译前，清除之前编译的文件、文件夹等，避免残留之前的内容 -->
+             <!--插件maven-clean-plugin，用于在编译前，清除之前编译的文件、文件夹等，避免残留之前的内容 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -152,6 +154,19 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                    <layout>NONE</layout>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
