@@ -48,7 +48,7 @@ jobs:
         gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
     - name: Publish to Apache Maven Central
-      run: mvn deploy
+      run: mvn clean deploy -pl mybatis-hotswap-springboot-starter  -am
       env:
         MAVEN_USERNAME: MAVEN_USERNAME
         MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
