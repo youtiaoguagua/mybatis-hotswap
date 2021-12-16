@@ -48,7 +48,7 @@ jobs:
         gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
     - name: Publish to Apache Maven Central
-      run: mvn clean deploy -B -pl mybatis-hotswap-springboot-starter  -am
+      run: mvn clean deploy -B -pl mybatis-hotswap-springboot-starter  -am -X
       env:
         MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
         MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
