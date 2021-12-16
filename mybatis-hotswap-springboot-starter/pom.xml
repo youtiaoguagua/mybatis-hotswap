@@ -2,37 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.youtiaoguagua.mybatis</groupId>
-        <artifactId>mybatis-hotswap</artifactId>
-        <version>1.0.0</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <groupId>com.youtiaoguagua.mybatis</groupId>
 
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-
-    <developers>
-        <developer>
-            <name>youtiaoguagua</name>
-            <email>youtiaoguagua@gmail.com</email>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:https://github.com/youtiaoguagua/mybatis-hotswap</connection>
-        <developerConnection>scm:git:git@github.com/youtiaoguagua/mybatis-hotswap.git</developerConnection>
-        <url>youtiaoguagua/mybatis-hotswap</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
-        </license>
-    </licenses>
-
 
     <artifactId>mybatis-hotswap-springboot-starter</artifactId>
     <name>springboot-mybatis-hotswap-starter</name>
@@ -74,6 +52,29 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <developers>
+        <developer>
+            <name>youtiaoguagua</name>
+            <email>youtiaoguagua@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/youtiaoguagua/mybatis-hotswap</connection>
+        <developerConnection>scm:git:git@github.com/youtiaoguagua/mybatis-hotswap.git</developerConnection>
+        <url>youtiaoguagua/mybatis-hotswap</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
     <build>
         <plugins>
