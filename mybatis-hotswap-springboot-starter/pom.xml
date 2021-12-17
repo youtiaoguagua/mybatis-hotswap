@@ -81,128 +81,101 @@
 
     <build>
         <plugins>
-            <!-- &lt;!&ndash;插件maven-clean-plugin，用于在编译前，清除之前编译的文件、文件夹等，避免残留之前的内容 &ndash;&gt;-->
-            <!--<plugin>-->
-            <!--    <groupId>org.apache.maven.plugins</groupId>-->
-            <!--    <artifactId>maven-clean-plugin</artifactId>-->
-            <!--    <version>3.1.0</version>-->
-            <!--    <configuration>-->
-            <!--        <filesets>-->
-            <!--            <fileset>-->
-            <!--                &lt;!&ndash; 前端资源目录，即：存放前端包目录&ndash;&gt;-->
-            <!--                <directory>src/main/resources/web</directory>-->
-            <!--            </fileset>-->
-            <!--            <fileset>-->
-            <!--                &lt;!&ndash; Vue项目打包自动生成的dist目录 &ndash;&gt;-->
-            <!--                <directory>../mybatis-reload-web/dist</directory>-->
-            <!--            </fileset>-->
-            <!--        </filesets>-->
-            <!--    </configuration>-->
-            <!--</plugin>-->
+             <!--插件maven-clean-plugin，用于在编译前，清除之前编译的文件、文件夹等，避免残留之前的内容 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <!-- 前端资源目录，即：存放前端包目录-->
+                            <directory>src/main/resources/web</directory>
+                        </fileset>
+                        <fileset>
+                            <!-- Vue项目打包自动生成的dist目录 -->
+                            <directory>../mybatis-reload-web/dist</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
 
-            <!--&lt;!&ndash;frontend-maven-plugin为项目本地下载/安装Node和NPM，运行npm install命令&ndash;&gt;-->
-            <!--<plugin>-->
-            <!--    <groupId>com.github.eirslett</groupId>-->
-            <!--    <artifactId>frontend-maven-plugin</artifactId>-->
-            <!--    <version>1.12.0</version>-->
-            <!--    <configuration>-->
-            <!--        <workingDirectory>../mybatis-reload-web</workingDirectory>-->
-            <!--        <nodeDownloadRoot>https://npm.taobao.org/mirrors/node/</nodeDownloadRoot>-->
-            <!--        <npmDownloadRoot>https://npm.taobao.org/mirrors/npm/</npmDownloadRoot>-->
-            <!--        <yarnDownloadRoot>https://npm.taobao.org/mirrors/yarn/</yarnDownloadRoot>-->
-            <!--        <nodeVersion>v16.13.0</nodeVersion>-->
-            <!--        <yarnVersion>v1.22.17</yarnVersion>-->
-            <!--    </configuration>-->
-            <!--    <executions>-->
-            <!--        &lt;!&ndash;<execution>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    &lt;!&ndash; optional: you don't really need execution ids, but it looks nice in your build log. &ndash;&gt;&ndash;&gt;-->
-            <!--        &lt;!&ndash;    <id>install node and npm</id>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    <goals>&ndash;&gt;-->
-            <!--        &lt;!&ndash;        <goal>install-node-and-npm</goal>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    </goals>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    &lt;!&ndash; optional: default phase is "generate-resources" &ndash;&gt;&ndash;&gt;-->
-            <!--        &lt;!&ndash;    <phase>generate-resources</phase>&ndash;&gt;-->
-            <!--        &lt;!&ndash;</execution>&ndash;&gt;-->
-            <!--        <execution>-->
-            <!--            &lt;!&ndash; optional: you don't really need execution ids, but it looks nice in your build log. &ndash;&gt;-->
-            <!--            <id>install node and yarn</id>-->
-            <!--            <goals>-->
-            <!--                <goal>install-node-and-yarn</goal>-->
-            <!--            </goals>-->
-            <!--            &lt;!&ndash; optional: default phase is "generate-resources" &ndash;&gt;-->
-            <!--            <phase>generate-resources</phase>-->
-            <!--        </execution>-->
-            <!--        &lt;!&ndash; Install all project dependencies &ndash;&gt;-->
-            <!--        &lt;!&ndash;<execution>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    <id>npm install</id>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    <goals>&ndash;&gt;-->
-            <!--        &lt;!&ndash;        <goal>npm</goal>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    </goals>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    <phase>generate-resources</phase>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    <configuration>&ndash;&gt;-->
-            <!--        &lt;!&ndash;        <arguments>install</arguments>&ndash;&gt;-->
-            <!--        &lt;!&ndash;    </configuration>&ndash;&gt;-->
-            <!--        &lt;!&ndash;</execution>&ndash;&gt;-->
-            <!--        <execution>-->
-            <!--            <id>yarn install</id>-->
-            <!--            <goals>-->
-            <!--                <goal>yarn</goal>-->
-            <!--            </goals>-->
-            <!--            <configuration>-->
-            <!--                &lt;!&ndash; optional: The default argument is actually-->
-            <!--                "install", so unless you need to run some other yarn command,-->
-            <!--                you can remove this whole <configuration> section.-->
-            <!--                &ndash;&gt;-->
-            <!--                <arguments>install</arguments>-->
-            <!--            </configuration>-->
-            <!--        </execution>-->
-            <!--        &lt;!&ndash; Build and minify static files &ndash;&gt;-->
-            <!--        <execution>-->
-            <!--            <id>yarn run build</id>-->
-            <!--            <goals>-->
-            <!--                <goal>yarn</goal>-->
-            <!--            </goals>-->
-            <!--            <configuration>-->
-            <!--                <arguments>run build:prod</arguments>-->
-            <!--            </configuration>-->
-            <!--        </execution>-->
-            <!--    </executions>-->
-            <!--</plugin>-->
+            <!--frontend-maven-plugin为项目本地下载/安装Node和NPM，运行npm install命令-->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.12.0</version>
+                <configuration>
+                    <workingDirectory>../mybatis-reload-web</workingDirectory>
+                    <nodeDownloadRoot>https://npm.taobao.org/mirrors/node/</nodeDownloadRoot>
+                    <npmDownloadRoot>https://npm.taobao.org/mirrors/npm/</npmDownloadRoot>
+                    <yarnDownloadRoot>https://npm.taobao.org/mirrors/yarn/</yarnDownloadRoot>
+                    <nodeVersion>v16.13.0</nodeVersion>
+                    <yarnVersion>v1.22.17</yarnVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and yarn</id>
+                        <goals>
+                            <goal>install-node-and-yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>yarn install</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install --registry https://registry.npm.taobao.org/</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn run build</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build:prod</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-            <!--<plugin>-->
-            <!--    <groupId>org.apache.maven.plugins</groupId>-->
-            <!--    <artifactId>maven-resources-plugin</artifactId>-->
-            <!--    <version>3.2.0</version>-->
-            <!--    <executions>-->
-            <!--        <execution>-->
-            <!--            <id>copy static</id>-->
-            <!--            <phase>generate-resources</phase>-->
-            <!--            <goals>-->
-            <!--                <goal>copy-resources</goal>-->
-            <!--            </goals>-->
-            <!--            <configuration>-->
-            <!--                &lt;!&ndash; 复制前端打包文件到这里 &ndash;&gt;-->
-            <!--                <outputDirectory>../mybatis-boot/src/main/resources/web</outputDirectory>-->
-            <!--                <overwrite>true</overwrite>-->
-            <!--                <resources>-->
-            <!--                    <resource>-->
-            <!--                        &lt;!&ndash; 从前端打包的目录dist进行指定文件、文件夹内容的复制&ndash;&gt;-->
-            <!--                        <directory>../mybatis-reload-web/dist</directory>-->
-            <!--                        <includes>-->
-            <!--                            &lt;!&ndash; 具体根据实际前端代码、及目录结构进行配置&ndash;&gt;-->
-            <!--                            <include>css/</include>-->
-            <!--                            <include>fonts/</include>-->
-            <!--                            <include>img/</include>-->
-            <!--                            <include>js/</include>-->
-            <!--                            <include>favicon.ico</include>-->
-            <!--                            <include>index.html</include>-->
-            <!--                        </includes>-->
-            <!--                    </resource>-->
-            <!--                </resources>-->
-            <!--            </configuration>-->
-            <!--        </execution>-->
-            <!--    </executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy static</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 复制前端打包文件到这里 -->
+                            <outputDirectory>../mybatis-boot/src/main/resources/web</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <!-- 从前端打包的目录dist进行指定文件、文件夹内容的复制-->
+                                    <directory>../mybatis-reload-web/dist</directory>
+                                    <includes>
+                                        <!-- 具体根据实际前端代码、及目录结构进行配置-->
+                                        <include>css/</include>
+                                        <include>fonts/</include>
+                                        <include>img/</include>
+                                        <include>js/</include>
+                                        <include>favicon.ico</include>
+                                        <include>index.html</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -216,6 +189,22 @@
                     </excludes>
                     <layout>NONE</layout>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <additionalJOption>-Xdoclint:none</additionalJOption>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -245,36 +234,25 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!-- Prevent gpg from using pinentry programs -->
                     <gpgArguments>
                         <arg>--pinentry-mode</arg>
                         <arg>loopback</arg>
                     </gpgArguments>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-            <!--    <groupId>org.sonatype.plugins</groupId>-->
-            <!--    <artifactId>nexus-staging-maven-plugin</artifactId>-->
-            <!--    <version>1.6.8</version>-->
-            <!--    <extensions>true</extensions>-->
-            <!--    <configuration>-->
-            <!--        <serverId>sonatype-staging</serverId>-->
-            <!--        <nexusUrl>https://s01.oss.sonatype.org</nexusUrl>-->
-            <!--        <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
-            <!--    </configuration>-->
-            <!--</plugin>-->
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>sonatype-staging</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-snapshots</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>sonatype-staging</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-    </distributionManagement>
 
 </project>

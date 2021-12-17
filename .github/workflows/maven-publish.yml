@@ -24,17 +24,6 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-#    - name: Build with Maven
-#      run: mvn clean  install -pl mybatis-hotswap-springboot-starter  -am
-
-#    - name: Publish to GitHub Packages Apache Maven
-#      run: mvn clean deploy -pl mybatis-hotswap-springboot-starter  -am  -s $GITHUB_WORKSPACE/settings.xml
-#      env:
-#        GITHUB_TOKEN: ${{ github.token }}
-#        MAVEN_USERNAME: MAVEN_USERNAME
-#        MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
-#        MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-
 
     - name: Set up Apache Maven Central
       uses: actions/setup-java@v2
@@ -48,7 +37,7 @@ jobs:
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
     - name: Publish to Apache Maven Central
-      run: mvn clean deploy -B -pl mybatis-hotswap-springboot-starter  -am -X
+      run: mvn clean deploy -B -pl mybatis-hotswap-springboot-starter  -am
       env:
         MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
         MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
