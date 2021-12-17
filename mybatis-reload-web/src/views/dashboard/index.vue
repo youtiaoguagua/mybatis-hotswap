@@ -1,21 +1,18 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-bg"></div>
-    
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'Dashboard',
+  name: "Dashboard",
   computed: {
-    ...mapGetters([
-      'name'
-    ])
-  }
-}
+    ...mapGetters(["name"]),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -30,7 +27,7 @@ export default {
     line-height: 46px;
   }
 
-  &-bg{
+  &-bg {
     background-image: url("https://ae03.alicdn.com/kf/Hae5d232034904e47a7d38c3add5ff6a8P.png");
     height: 100%;
     background-size: cover;

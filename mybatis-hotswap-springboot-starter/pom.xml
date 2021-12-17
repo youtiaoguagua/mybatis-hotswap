@@ -13,7 +13,7 @@
 
     <groupId>io.github.youtiaoguagua</groupId>
     <artifactId>mybatis-hotswap-springboot-starter</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <name>springboot-mybatis-hotswap-starter</name>
     <description>springboot-mybatis-hotswap-starter</description>
