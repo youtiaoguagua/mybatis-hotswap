@@ -8,7 +8,7 @@
         <version>2.6.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.youtiaoguagua.mybatis</groupId>
+    <groupId>io.github.youtiaoguagua</groupId>
     <artifactId>mybatis-hotswap</artifactId>
     <version>1.0.0</version>
     <name>mybatis-hotswap</name>

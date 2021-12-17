@@ -1,4 +1,4 @@
-package com.wang.spring.mybatis;
+package io.github.youtiaoguagua.spring.mybatis;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

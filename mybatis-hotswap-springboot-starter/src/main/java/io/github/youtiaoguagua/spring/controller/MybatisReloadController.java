@@ -1,12 +1,12 @@
-package com.wang.spring.controller;
+package io.github.youtiaoguagua.spring.controller;
 
-import com.wang.spring.core.MybatisMapperXmlFileReloadService;
-import com.wang.spring.core.MybatisMapperXmlLoadService;
-import com.wang.spring.entity.LoginReq;
-import com.wang.spring.entity.LoginResp;
-import com.wang.spring.entity.MapperXmlEntity;
-import com.wang.spring.entity.Response;
-import com.wang.spring.mybatis.MybatisMapperReloadProperties;
+import io.github.youtiaoguagua.spring.core.MybatisMapperXmlFileReloadService;
+import io.github.youtiaoguagua.spring.core.MybatisMapperXmlLoadService;
+import io.github.youtiaoguagua.spring.entity.LoginReq;
+import io.github.youtiaoguagua.spring.entity.LoginResp;
+import io.github.youtiaoguagua.spring.entity.MapperXmlEntity;
+import io.github.youtiaoguagua.spring.entity.Response;
+import io.github.youtiaoguagua.spring.mybatis.MybatisMapperReloadProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

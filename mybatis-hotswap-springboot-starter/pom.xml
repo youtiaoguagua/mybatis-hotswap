@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
 
-    <groupId>com.youtiaoguagua.mybatis</groupId>
+    <groupId>io.github.youtiaoguagua</groupId>
     <artifactId>mybatis-hotswap-springboot-starter</artifactId>
     <version>1.0.0</version>
 
@@ -252,7 +252,6 @@
                     </gpgArguments>
                 </configuration>
             </plugin>
-
             <!--<plugin>-->
             <!--    <groupId>org.sonatype.plugins</groupId>-->
             <!--    <artifactId>nexus-staging-maven-plugin</artifactId>-->

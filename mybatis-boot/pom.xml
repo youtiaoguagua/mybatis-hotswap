@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.youtiaoguagua.mybatis</groupId>
+        <groupId>io.github.youtiaoguagua</groupId>
         <artifactId>mybatis-hotswap</artifactId>
         <version>1.0.0</version>
     </parent>
@@ -18,7 +18,7 @@
 
     <dependencies>
         <!--<dependency>-->
-        <!--    <groupId>com.youtiaoguagua.mybatis</groupId>-->
+        <!--    <groupId>io.github.youtiaoguagua</groupId>-->
         <!--    <artifactId>mybatis-hotswap-springboot-starter</artifactId>-->
         <!--    <version>1.0.0</version>-->
         <!--</dependency>-->

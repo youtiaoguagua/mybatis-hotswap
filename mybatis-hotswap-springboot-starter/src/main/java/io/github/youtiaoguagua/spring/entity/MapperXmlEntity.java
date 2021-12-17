@@ -1,4 +1,4 @@
-package com.wang.spring.entity;
+package io.github.youtiaoguagua.spring.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

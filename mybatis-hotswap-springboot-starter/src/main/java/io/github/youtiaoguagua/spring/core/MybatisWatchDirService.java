@@ -1,4 +1,4 @@
-package com.wang.spring.core;
+package io.github.youtiaoguagua.spring.core;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.watch.SimpleWatcher;

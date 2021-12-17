@@ -1,4 +1,4 @@
-package com.wang.spring.core;
+package io.github.youtiaoguagua.spring.core;
 
 import cn.hutool.core.io.file.FileReader;
 import lombok.extern.slf4j.Slf4j;

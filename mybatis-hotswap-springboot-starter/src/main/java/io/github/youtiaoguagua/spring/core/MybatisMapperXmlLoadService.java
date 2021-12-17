@@ -1,6 +1,6 @@
-package com.wang.spring.core;
+package io.github.youtiaoguagua.spring.core;
 
-import com.wang.spring.entity.MapperXmlEntity;
+import io.github.youtiaoguagua.spring.entity.MapperXmlEntity;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.DefaultResourceLoader;

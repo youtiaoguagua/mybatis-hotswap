@@ -1,7 +1,7 @@
-package com.wang.spring.config;
+package io.github.youtiaoguagua.spring.config;
 
-import com.wang.spring.intecepter.MybatisReloadIntecepter;
-import com.wang.spring.mybatis.MybatisMapperReloadProperties;
+import io.github.youtiaoguagua.spring.intecepter.MybatisReloadIntecepter;
+import io.github.youtiaoguagua.spring.mybatis.MybatisMapperReloadProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;

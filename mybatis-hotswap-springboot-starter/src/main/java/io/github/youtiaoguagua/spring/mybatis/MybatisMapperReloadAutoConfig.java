@@ -1,8 +1,8 @@
-package com.wang.spring.mybatis;
+package io.github.youtiaoguagua.spring.mybatis;
 
-import com.wang.spring.core.MybatisMapperXmlFileReloadService;
-import com.wang.spring.core.MybatisMapperXmlLoadService;
-import com.wang.spring.core.MybatisWatchDirService;
+import io.github.youtiaoguagua.spring.core.MybatisMapperXmlFileReloadService;
+import io.github.youtiaoguagua.spring.core.MybatisMapperXmlLoadService;
+import io.github.youtiaoguagua.spring.core.MybatisWatchDirService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

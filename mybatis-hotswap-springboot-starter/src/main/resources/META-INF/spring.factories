@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.wang.spring.mybatis.MybatisMapperReloadAutoConfig
+io.github.youtiaoguagua.spring.mybatis.MybatisMapperReloadAutoConfig
