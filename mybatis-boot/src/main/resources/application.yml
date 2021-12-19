@@ -17,21 +17,23 @@ spring:
 server:
   port: 8888
 
-
-
-
-
-
-
-
-
 mybatis:
   mapper-locations: classpath*:/mapper/*.xml
   mapper:
     reload:
+      # 是否开启重载
       enable: true
+      # mybatis xml文件路径
       mapper-locations: classpath*:/mapper/*.xml
-      url-prefix: web/mybatis/reload/cao
+      # web见面请求路径
+      url-prefix: web/mybatis/reload/
+      # 返回的token
+      token: yyds
+      # 登录用户名
+      username: admin
+      # 登录密码
+      password: 123456
+
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 控制台输出日志
 
