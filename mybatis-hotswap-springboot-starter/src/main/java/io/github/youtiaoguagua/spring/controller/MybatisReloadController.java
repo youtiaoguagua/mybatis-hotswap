@@ -20,7 +20,7 @@ import java.util.Objects;
  * @time 2021/12/13 5:26 PM
  */
 @RestController
-@RequestMapping("/api/wang/mybatis")
+@RequestMapping("/api/youtiaoguagua/mybatis")
 @Slf4j
 public class MybatisReloadController {
 
