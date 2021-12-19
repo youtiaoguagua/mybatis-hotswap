@@ -3,6 +3,7 @@
 [![Maven Package](https://github.com/youtiaoguagua/mybatis-hotswap/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/youtiaoguagua/mybatis-hotswap/actions/workflows/maven-publish.yml)
 ![GitHub](https://img.shields.io/github/license/youtiaoguagua/mybatis-hotswap)
 ![version](https://img.shields.io/maven-central/v/io.github.youtiaoguagua/mybatis-hotswap-springboot-starter)
+
 本项目为了方便在开发过程中修改mybatis xml文件，分为本地修改和线上修改两部分。
 
 * 本地开发时只需要修改完xml文件，recompile之后插件会自动检测到文件变更，重新加载xml。
