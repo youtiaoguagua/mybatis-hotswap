@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @Configuration
 @ConditionalOnClass(SqlSessionFactory.class)
 @EnableConfigurationProperties(MybatisMapperReloadProperties.class)
-@ComponentScan(value = {"com.wang.spring.controller", "com.wang.spring.config", "com.wang.spring.intecepter"})
+@ComponentScan(value = {"io.github.youtiaoguagua.spring.controller", "io.github.youtiaoguagua.spring.config", "io.github.youtiaoguagua.spring.intecepter"})
 @ConditionalOnProperty(prefix = "mybatis.mapper.reload", value = "enable", havingValue = "true", matchIfMissing = false)
 public class MybatisMapperReloadAutoConfig {
 
