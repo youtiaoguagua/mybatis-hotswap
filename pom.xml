@@ -17,10 +17,39 @@
 
     <modules>
         <module>mybatis-hotswap-springboot-starter</module>
-        <module>mybatis-boot</module>
+        <module>mybatis-boot-example</module>
     </modules>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-snapshots</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-staging</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+
+
+    <!--<build>-->
+    <!--    <plugins>-->
+    <!--        <plugin>-->
+    <!--            <groupId>org.springframework.boot</groupId>-->
+    <!--            <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--            <configuration>-->
+    <!--                <excludes>-->
+    <!--                    <exclude>-->
+    <!--                        <groupId>org.projectlombok</groupId>-->
+    <!--                        <artifactId>lombok</artifactId>-->
+    <!--                    </exclude>-->
+    <!--                </excludes>-->
+    <!--            </configuration>-->
+    <!--        </plugin>-->
+    <!--    </plugins>-->
+    <!--</build>-->
 </project>
