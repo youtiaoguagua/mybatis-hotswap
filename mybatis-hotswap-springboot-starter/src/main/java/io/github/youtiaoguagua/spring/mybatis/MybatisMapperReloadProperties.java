@@ -2,6 +2,10 @@ package io.github.youtiaoguagua.spring.mybatis;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author 王祥飞
@@ -9,6 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "mybatis.mapper.reload")
 @Data
+@Validated
 public class MybatisMapperReloadProperties {
 
     /**
@@ -24,17 +29,26 @@ public class MybatisMapperReloadProperties {
     /**
      * 登录token
      */
-    private String token = "yyds";
+    @NotEmpty
+    private String key = "yyds";
 
     /**
      * 登录用户名
      */
+    @NotEmpty
     private String username = "admin";
 
     /**
      * 登录密码
      */
+    @NotEmpty
     private String password = "123456";
+
+    /**
+     * token有效时间
+     */
+    @NotNull
+    private Integer expired = 60 * 24;
 
     /**
      * mybatis访问路径

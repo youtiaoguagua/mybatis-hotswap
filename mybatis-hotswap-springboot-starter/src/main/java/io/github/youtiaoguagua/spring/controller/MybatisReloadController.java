@@ -1,5 +1,9 @@
 package io.github.youtiaoguagua.spring.controller;
 
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.jwt.JWTPayload;
+import cn.hutool.jwt.JWTUtil;
 import io.github.youtiaoguagua.spring.core.MybatisMapperXmlFileReloadService;
 import io.github.youtiaoguagua.spring.core.MybatisMapperXmlLoadService;
 import io.github.youtiaoguagua.spring.entity.LoginReq;
@@ -11,9 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author 王祥飞
@@ -33,20 +35,25 @@ public class MybatisReloadController {
     @Autowired
     private MybatisMapperReloadProperties properties;
 
-    private final String cao = "/hhh";
-
-    @GetMapping(value = {cao})
-    public String getTest(){
-        return "sdafas";
-    }
-
     @PostMapping("/login")
     public Response<LoginResp> login(@RequestBody LoginReq loginReq) {
         if (!Objects.equals(loginReq.getUsername(), properties.getUsername()) || !Objects.equals(loginReq.getPassword(), properties.getPassword())) {
             return Response.fail("用户名或密码错误！");
         }
+        DateTime now = DateTime.now();
+        DateTime newTime = now.offsetNew(DateField.MINUTE, properties.getExpired());
+
+        Map<String, Object> payload = new HashMap<>();
+        //签发时间
+        payload.put(JWTPayload.ISSUED_AT, now);
+        //过期时间
+        payload.put(JWTPayload.EXPIRES_AT, newTime);
+        //生效时间
+        payload.put(JWTPayload.NOT_BEFORE, now);
+        String token = JWTUtil.createToken(payload, properties.getKey().getBytes());
+
         LoginResp loginResp = new LoginResp();
-        loginResp.setToken(properties.getToken());
+        loginResp.setToken(token);
         loginResp.setName(properties.getUsername());
         loginResp.setAvatar("https://ae03.alicdn.com/kf/H4c2aa642bcfc40d99bc5bd31ecc799c8J.png");
         return Response.ok(loginResp);

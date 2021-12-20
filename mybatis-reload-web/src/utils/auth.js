@@ -26,6 +26,7 @@ export function getUserInfo() {
 }
 
 export function setUserInfo(userinfo) {
+  console.log(userinfo)
   let userInfoJson = JSON.stringify(userinfo)
   return Cookies.set(UserInfo, userInfoJson)
 }

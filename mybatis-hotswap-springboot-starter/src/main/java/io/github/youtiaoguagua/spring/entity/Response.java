@@ -13,6 +13,8 @@ public class Response<T> implements Serializable {
     private boolean success;
     private T data;
     private String error;
+    private Integer code;
+
 
     public Response() {
     }
@@ -45,6 +47,7 @@ public class Response<T> implements Serializable {
 
     public static <T> Response<T> ok(T data) {
         Response<T> resp = new Response();
+        resp.setCode(200);
         resp.setData(data);
         return resp;
     }
@@ -56,7 +59,12 @@ public class Response<T> implements Serializable {
     public static <T> Response<T> fail(String error) {
         Response resp = new Response();
         resp.setError(error);
+        resp.setCode(500);
         return resp;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
     }
 }
 

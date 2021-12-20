@@ -46,11 +46,6 @@ public class MybatisMapperXmlLoadService {
     }
 
     public void init() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (!init) {
             scanMapperXml();
             getWatchMapperXmlFileDirPaths();

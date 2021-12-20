@@ -1,5 +1,6 @@
 package io.github.youtiaoguagua.spring.config;
 
+import io.github.youtiaoguagua.spring.MybatisHotSwapApiEnum;
 import io.github.youtiaoguagua.spring.intecepter.MybatisReloadIntecepter;
 import io.github.youtiaoguagua.spring.mybatis.MybatisMapperReloadProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(mybatisReloadIntecepter)
-                .addPathPatterns("/api/wang/mybatis" + "/**");
+                .addPathPatterns(MybatisHotSwapApiEnum.URL_PREFIX.getVal() + "/**");
     }
 
     @Override

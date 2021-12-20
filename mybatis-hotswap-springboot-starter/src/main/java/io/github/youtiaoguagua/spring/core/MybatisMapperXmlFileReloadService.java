@@ -133,23 +133,29 @@ public class MybatisMapperXmlFileReloadService {
      * @see XMLMapperBuilder#configurationElement
      */
     private void removeOldMapperFileConfigCache(Configuration configuration, XNode mapper, String namespace) {
-        String xmlResource = namespace.replace('.', '/') + ".xml";
+        String xmlResource = parserNameSpace(namespace);
         ((Set<?>) this.readField(configuration, "loadedResources")).remove(xmlResource);
+
+        Map<?, ?> parameterMaps = (Map<?, ?>) this.readField(configuration, "parameterMaps");
+        Map<?, ?> resultMaps = (Map<?, ?>) this.readField(configuration, "resultMaps");
+        Map<?, ?> sqlFragments = (Map<?, ?>) this.readField(configuration, "sqlFragments");
+        Map<?, ?> mappedStatements = (Map<?, ?>) this.readField(configuration, "mappedStatements");
+
         for (XNode node : mapper.evalNodes("parameterMap")) {
             String parameterMapId = this.resolveId(namespace, node.getStringAttribute("id"));
-            ((Map<?, ?>) this.readField(configuration, "parameterMaps")).remove(parameterMapId);
+            parameterMaps.remove(parameterMapId);
         }
         for (XNode node : mapper.evalNodes("resultMap")) {
             String resultMapId = this.resolveId(namespace, node.getStringAttribute("id"));
-            ((Map<?, ?>) this.readField(configuration, "resultMaps")).remove(resultMapId);
+            resultMaps.remove(resultMapId);
         }
         for (XNode node : mapper.evalNodes("sql")) {
             String sqlId = this.resolveId(namespace, node.getStringAttribute("id"));
-            ((Map<?, ?>) this.readField(configuration, "sqlFragments")).remove(sqlId);
+            sqlFragments.remove(sqlId);
         }
         for (XNode node : mapper.evalNodes("select|insert|update|delete")) {
             String statementId = this.resolveId(namespace, node.getStringAttribute("id"));
-            ((Map<?, ?>) this.readField(configuration, "mappedStatements")).remove(statementId);
+            mappedStatements.remove(statementId);
         }
     }
 
@@ -161,12 +167,17 @@ public class MybatisMapperXmlFileReloadService {
      */
     private void addNewMapperFile(Configuration configuration, String xml, String namespace) throws IOException {
         try (InputStream fileInputStream = new ByteArrayInputStream(xml.getBytes());) {
-            String xmlResource = namespace.replace('.', '/') + ".xml";
+            String xmlResource = parserNameSpace(namespace);
             XMLMapperBuilder xmlMapperBuilder = new XMLMapperBuilder(fileInputStream, configuration,
                     xmlResource,
                     configuration.getSqlFragments());
             xmlMapperBuilder.parse();
         }
+    }
+
+    private String parserNameSpace(String namespace) {
+        String xmlResource = "namespace:" + namespace;
+        return xmlResource;
     }
 
 

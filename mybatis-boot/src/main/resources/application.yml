@@ -28,7 +28,7 @@ mybatis:
       # web见面请求路径
       url-prefix: web/mybatis/reload/
       # 返回的token
-      token: yyds
+      key: yyds
       # 登录用户名
       username: admin
       # 登录密码
