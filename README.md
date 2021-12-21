@@ -14,9 +14,12 @@
 
   * [mybatis-mapper-reload-spring-boot-start](https://github.com/WangJi92/mybatis-mapper-reload-spring-boot-start)
 
+## 2、原理
+mybatis在springboot中自动配置的方法会获取一个`SqlSessionFactory`，在设置bean时会调用`getObject`，这个方法将会调用`afterPropertiesSet`，这个方法将会构造一个`sqlSessionFactory`。
 
+构造`sqlSessionFactory`时会循环创建`XMLMapperBuilder`，这个类会解析xml文件，并且将解析出来的sql语句和对应的方法绑定到`SqlSessionFactory`的`Configuration`中，`Configuration`中存储这xml的所有解析信息。
 
-## 2、使用
+## 3、使用
 
 ```yaml
 mybatis:
@@ -29,8 +32,8 @@ mybatis:
       mapper-locations: classpath*:/mapper/*.xml
       # web见面请求路径
       url-prefix: web/mybatis/reload/
-      # 返回的token
-      token: 123456
+      # token加密密匙
+      key: 123456
       # 登录用户名
       username: admin
       # 登录密码
@@ -47,7 +50,7 @@ mybatis:
 
 
 
-## 3、预览
+## 4、预览
 
 ### 登录界面
 
