@@ -44,7 +44,7 @@ mybatis:
 <dependency>
     <groupId>io.github.youtiaoguagua</groupId>
     <artifactId>mybatis-hotswap-springboot-starter</artifactId>
-    <version>1.0.6-RELEASE</version>
+    <version>1.0.7-RELEASE</version>
 </dependency>
 ```
 

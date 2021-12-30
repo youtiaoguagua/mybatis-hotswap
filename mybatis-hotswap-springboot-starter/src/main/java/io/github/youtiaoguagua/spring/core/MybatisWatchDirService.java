@@ -26,7 +26,7 @@ public class MybatisWatchDirService {
     /**
      * mybatis文件重载服务
      */
-    private MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService;
+    private MybatisMapperXmlReloadService mybatisMapperXmlReloadService;
 
 
     /**
@@ -34,9 +34,9 @@ public class MybatisWatchDirService {
      */
     private final AtomicInteger reloadCount = new AtomicInteger(0);
 
-    public MybatisWatchDirService(MybatisMapperXmlLoadService mybatisMapperXmlLoadService, MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService) {
+    public MybatisWatchDirService(MybatisMapperXmlLoadService mybatisMapperXmlLoadService, MybatisMapperXmlReloadService mybatisMapperXmlReloadService) {
         this.mybatisMapperXmlLoadService = mybatisMapperXmlLoadService;
-        this.mybatisMapperXmlFileReloadService = mybatisMapperXmlFileReloadService;
+        this.mybatisMapperXmlReloadService = mybatisMapperXmlReloadService;
     }
 
     public void init() {
@@ -59,7 +59,7 @@ public class MybatisWatchDirService {
             if (!file.getName().endsWith(".xml")) {
                 return;
             }
-            boolean result = mybatisMapperXmlFileReloadService.reloadAllSqlSessionFactoryMapper(file.getPath());
+            boolean result = mybatisMapperXmlReloadService.reloadAllSqlSessionFactoryMapper(file.getPath());
             log.info("reload all count ={} current result={} mapper path={} ", file.getPath(), reloadCount.incrementAndGet(), result);
         }
     }

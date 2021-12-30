@@ -4,8 +4,8 @@ import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
-import io.github.youtiaoguagua.spring.core.MybatisMapperXmlFileReloadService;
 import io.github.youtiaoguagua.spring.core.MybatisMapperXmlLoadService;
+import io.github.youtiaoguagua.spring.core.MybatisMapperXmlReloadService;
 import io.github.youtiaoguagua.spring.entity.LoginReq;
 import io.github.youtiaoguagua.spring.entity.LoginResp;
 import io.github.youtiaoguagua.spring.entity.MapperXmlEntity;
@@ -30,7 +30,7 @@ public class MybatisReloadController {
     private MybatisMapperXmlLoadService mybatisMapperXmlLoadService;
 
     @Autowired
-    private MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService;
+    private MybatisMapperXmlReloadService mybatisMapperXmlReloadService;
 
     @Autowired
     private MybatisMapperReloadProperties properties;
@@ -93,7 +93,7 @@ public class MybatisReloadController {
         if (Objects.isNull(entity)) {
             return Response.fail("没有找到对应的xml文件！");
         }
-        boolean result = mybatisMapperXmlFileReloadService.reloadAllSqlSessionFactoryMapper(mapperXmlEntity.getXml(), mapperXmlEntity.getPath());
+        boolean result = mybatisMapperXmlReloadService.reloadAllSqlSessionFactoryMapper(mapperXmlEntity.getXml(), mapperXmlEntity.getPath());
 
         if (result) {
             // 更新mybatis文件

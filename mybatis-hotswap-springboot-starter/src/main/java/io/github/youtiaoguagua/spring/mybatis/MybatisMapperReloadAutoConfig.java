@@ -1,7 +1,7 @@
 package io.github.youtiaoguagua.spring.mybatis;
 
-import io.github.youtiaoguagua.spring.core.MybatisMapperXmlFileReloadService;
 import io.github.youtiaoguagua.spring.core.MybatisMapperXmlLoadService;
+import io.github.youtiaoguagua.spring.core.MybatisMapperXmlReloadService;
 import io.github.youtiaoguagua.spring.core.MybatisWatchDirService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,8 @@ public class MybatisMapperReloadAutoConfig {
     }
 
     @Bean
-    public MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService(@Autowired(required = false) List<SqlSessionFactory> sqlSessionFactoryList) {
-        return new MybatisMapperXmlFileReloadService(sqlSessionFactoryList);
+    public MybatisMapperXmlReloadService mybatisMapperXmlFileReloadService(@Autowired(required = false) List<SqlSessionFactory> sqlSessionFactoryList) {
+        return new MybatisMapperXmlReloadService(sqlSessionFactoryList);
     }
 
 
@@ -46,8 +46,8 @@ public class MybatisMapperReloadAutoConfig {
     }
 
     @Bean
-    public MybatisWatchDirService mybatisWatchDirService(@Autowired MybatisMapperXmlFileReloadService mybatisMapperXmlFileReloadService, @Autowired MybatisMapperXmlLoadService mybatisMapperXmlLoadService) {
-        MybatisWatchDirService mybatisWatchDirService = new MybatisWatchDirService(mybatisMapperXmlLoadService, mybatisMapperXmlFileReloadService);
+    public MybatisWatchDirService mybatisWatchDirService(@Autowired MybatisMapperXmlReloadService mybatisMapperXmlReloadService, @Autowired MybatisMapperXmlLoadService mybatisMapperXmlLoadService) {
+        MybatisWatchDirService mybatisWatchDirService = new MybatisWatchDirService(mybatisMapperXmlLoadService, mybatisMapperXmlReloadService);
         CompletableFuture.runAsync(mybatisWatchDirService::init);
         return mybatisWatchDirService;
     }

@@ -30,12 +30,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @time 2021/12/13 2:51 PM
  */
 @Slf4j
-public class MybatisMapperXmlFileReloadService {
+public class MybatisMapperXmlReloadService {
 
     private List<SqlSessionFactory> sqlSessionFactoryList;
 
 
-    public MybatisMapperXmlFileReloadService(List<SqlSessionFactory> sqlSessionFactoryList) {
+    public MybatisMapperXmlReloadService(List<SqlSessionFactory> sqlSessionFactoryList) {
         this.sqlSessionFactoryList = sqlSessionFactoryList;
     }
 
