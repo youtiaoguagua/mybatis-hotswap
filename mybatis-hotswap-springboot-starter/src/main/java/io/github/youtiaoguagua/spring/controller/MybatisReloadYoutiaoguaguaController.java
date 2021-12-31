@@ -24,7 +24,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/youtiaoguagua/mybatis")
 @Slf4j
-public class MybatisReloadController {
+public class MybatisReloadYoutiaoguaguaController {
 
     @Autowired
     private MybatisMapperXmlLoadService mybatisMapperXmlLoadService;
@@ -70,9 +70,9 @@ public class MybatisReloadController {
         return Response.ok(result);
     }
 
-    @GetMapping("/mapper/{mapperName}")
-    public Response<MapperXmlEntity> getMapperXmlDetail(@PathVariable String mapperName) {
-        String path = mybatisMapperXmlLoadService.getMapperXmlPath().get(mapperName);
+    @GetMapping("/mapper/detail")
+    public Response<MapperXmlEntity> getMapperXmlDetail(@RequestParam("xmlId") String xmlId) {
+        String path = mybatisMapperXmlLoadService.getMapperXmlPath().get(xmlId);
         if (Objects.isNull(path)) {
             return Response.fail("没有找到对应的mapper！");
         }
@@ -80,7 +80,7 @@ public class MybatisReloadController {
         if (Objects.isNull(entity) || Objects.isNull(entity.getXml())) {
             return Response.fail("没有找到对应的xml文件！");
         }
-        MapperXmlEntity mapperXmlEntity = MapperXmlEntity.builder().name(mapperName).path(path).xml(entity.getXml()).build();
+        MapperXmlEntity mapperXmlEntity = MapperXmlEntity.builder().name(xmlId).path(path).xml(entity.getXml()).build();
         return Response.ok(mapperXmlEntity);
     }
 

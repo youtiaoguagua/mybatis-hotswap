@@ -10,9 +10,9 @@ export function getList(params) {
 
 export function getXmlDetail(params) {
   return request({
-    url: "/mapper/" + params,
+    url: "/mapper/detail",
     method: "get",
-    params,
+    params: {xmlId:params},
   });
 }
 

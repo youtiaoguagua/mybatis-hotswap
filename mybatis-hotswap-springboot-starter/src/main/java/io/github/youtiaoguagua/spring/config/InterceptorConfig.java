@@ -55,8 +55,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        String urlPrefix = getUrlPrefix();
-        registry.addViewController(urlPrefix).setViewName("forward:" + "/index.html");
+        registry.addViewController(properties.getUrlPrefix()).setViewName("forward:" + "/index.html");
     }
 
     // 兼容spring4.x
